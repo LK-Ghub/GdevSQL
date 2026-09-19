@@ -27,11 +27,15 @@ Cada consulta traz um comentário de 1–2 linhas com a pergunta de negócio que
 
 Como não há FKs declaradas, as relações foram inferidas pelos IDs em comum:
 
-```
-customers (customer_id) ──< orders (order_id) ──< order_items >── products (product_id) ──> category_translation
-                                   │                   │
-                                   ├──< order_payments └── sellers (seller_id)
-                                   └──< order_reviews
+```mermaid
+erDiagram
+    CUSTOMERS ||--o{ ORDERS : "customer_id"
+    ORDERS ||--o{ ORDER_ITEMS : "order_id"
+    ORDERS ||--o{ ORDER_PAYMENTS : "order_id"
+    ORDERS ||--o{ ORDER_REVIEWS : "order_id"
+    ORDER_ITEMS }o--|| PRODUCTS : "product_id"
+    ORDER_ITEMS }o--|| SELLERS : "seller_id"
+    PRODUCTS }o--|| CATEGORY_TRANSLATION : "product_category_name"
 ```
 
 Pontos de granularidade que definem se um join está certo:
